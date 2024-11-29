@@ -27,6 +27,7 @@ resource "aws_s3_bucket_website_configuration" "static_website_config" {
 
 }
 
+# Adds needed objects to the bucket
 resource "aws_s3_object" "index_object" {
   bucket = aws_s3_bucket.HCN_Dev_Bucket.id
   key    = "index.html"
