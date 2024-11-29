@@ -1,6 +1,3 @@
-/*
-Is this for backend setup? Can I remove it if its not needed? -Kaylen 
-
 resource "aws_s3_bucket" "HealthCare_North" {
   bucket = "healthcare-north-pod4-project"
   tags = {
@@ -16,7 +13,6 @@ resource "aws_s3_bucket_versioning" "versioning" {
     status = "Enabled"
   }
 }
-*/
 
 # S3 bucket for development  
 module "dev-s3-website" {

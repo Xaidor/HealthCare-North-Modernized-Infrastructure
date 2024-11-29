@@ -13,6 +13,13 @@ resource "aws_s3_bucket" "HCN_Dev_Bucket" {
     }
 }
 
+resource "aws_s3_bucket_ownership_controls" "s3_acl_ownership" {
+  bucket = aws_s3_bucket.HCN_Dev_Bucket.id
+  rule {
+    object_ownership = "ObjectWriter"
+  }
+}
+
 #Option 2 for static web hosting. A more advance option
 resource "aws_s3_bucket_website_configuration" "static_website_config" {
     bucket = aws_s3_bucket.HCN_Dev_Bucket.id  
@@ -42,16 +49,18 @@ resource  "aws_s3_object" "error_opject" {
 
 resource "aws_s3_bucket_policy" "hcn_public_policy" {
   bucket = aws_s3_bucket.HCN_Dev_Bucket.id
-    
+
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Principal = "*"
+        Sid       = "PublicReadGetObject"
         Effect    = "Allow"
+        Principal = "*"
         Action    = "s3:GetObject"
-        Resource  = "aws_s3_bucket.HCN_Dev_Bucket.arn/*"  
+        Resource  = "${aws_s3_bucket.HCN_Dev_Bucket.arn}/*"
       }
     ]
   })
 }
+
