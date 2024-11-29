@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "HCN_Dev_Bucket" {
         error_document = "error.html"
     }
 */
-    tags {
+    tags = {
         Name = "HealthCare North Static Website"
         Environment  = "Dev"
     }
@@ -18,11 +18,11 @@ resource "aws_s3_bucket_website_configuration" "static_website_config" {
     bucket = aws_s3_bucket.HCN_Dev_Bucket.id  
 
     index_document {
-        suffix = index.html
+        suffix = "index.html"
     }
     
     error_document {
-        key = error.html
+        key = "error.html"
     }
 
 }
@@ -42,15 +42,15 @@ resource  "aws_s3_object" "error_opject" {
 
 resource "aws_s3_bucket_policy" "hcn_public_policy" {
   bucket = aws_s3_bucket.HCN_Dev_Bucket.id
-
+    
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Effect    = "Allow"
         Principal = "*"
+        Effect    = "Allow"
         Action    = "s3:GetObject"
-        Resource  = "${aws_s3_bucket.HCN_Dev_Bucket.arn}/*"  
+        Resource  = "aws_s3_bucket.HCN_Dev_Bucket.arn/*"  
       }
     ]
   })

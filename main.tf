@@ -1,5 +1,5 @@
 /*
-Is this for backend setup? and  can I remove it if its not needed? -Kaylen 
+Is this for backend setup? Can I remove it if its not needed? -Kaylen 
 
 resource "aws_s3_bucket" "HealthCare_North" {
   bucket = "healthcare-north-pod4-project"
@@ -19,7 +19,7 @@ resource "aws_s3_bucket_versioning" "versioning" {
 */
 
 # S3 bucket for development  
-module "dev-s3-websit" {
-  source = ./modules/dev-s3
+module "dev-s3-website" {
+  source   = "./modules/dev-s3"
   s3bucket = var.s3bucket
 }
