@@ -30,13 +30,13 @@ resource "aws_s3_bucket_website_configuration" "static_website_config" {
 resource "aws_s3_object" "index_object" {
   bucket = aws_s3_bucket.HCN_Dev_Bucket.id
   key    = "index.html"
-  source = "./terraform/modules/dev-s3/index.html"
+  source = "./modules/dev-s3/index.html"
 }
 
 resource  "aws_s3_object" "error_opject" {
     bucket = aws_s3_bucket.HCN_Dev_Bucket.id
     key = "error.html"
-    source = ".terraform/modules/dev-s3/error.html"
+    source = "./modules/dev-s3/error.html"
 }
 
 resource "aws_s3_bucket_policy" "hcn_public_policy" {

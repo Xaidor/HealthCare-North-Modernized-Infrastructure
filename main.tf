@@ -20,6 +20,6 @@ resource "aws_s3_bucket_versioning" "versioning" {
 
 # S3 bucket for development  
 module "dev-s3-websit" {
-  source = ./terraform/modules/dev-s3
+  source = ./modules/dev-s3
   s3bucket = var.s3bucket
 }
