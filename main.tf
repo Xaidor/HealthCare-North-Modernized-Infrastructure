@@ -1,4 +1,7 @@
-/*resource "aws_s3_bucket" "HealthCare_North" {
+/*
+Is this for backend setup? and  can I remove it if its not needed? -Kaylen 
+
+resource "aws_s3_bucket" "HealthCare_North" {
   bucket = "healthcare-north-pod4-project"
   tags = {
     Name        = "Bucket for Development Environment"
@@ -15,3 +18,8 @@ resource "aws_s3_bucket_versioning" "versioning" {
 }
 */
 
+# S3 bucket for development  
+module "dev-s3-websit" {
+  source = ./terraform/modules/dev-s3
+  s3bucket = var.s3bucket
+}
