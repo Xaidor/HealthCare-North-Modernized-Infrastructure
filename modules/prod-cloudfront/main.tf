@@ -2,7 +2,7 @@
 
 resource "aws_cloudfront_distribution" "HealthCare_CF_Distribution" {
     origin {
-        domain_name = aws_s3_bucket.<prod-bucket>.bucket_reginal_domain_name #Add s3 prod bucket
+        domain_name = aws_s3_bucket.HCN_Prod_Bucket.bucket_reginal_domain_name 
         origin_acces_control = aws_cloudfront_origin_acces_control.default.id
         origin_id = local.s3_origin_id
     }
@@ -12,7 +12,7 @@ resource "aws_cloudfront_distribution" "HealthCare_CF_Distribution" {
     default_root_object = "index.html"
 
     default_cache_behavior {
-        target_origin_id = "<s3-prod-bucket>" #add s3 bucket
+        target_origin_id = local.s3_origin_id 
         viewer_protocol_policy = "redirect-to-https" 
 
         allow_methods = ["GET", "HEAD"]
@@ -40,8 +40,4 @@ resource "aws_cloudfront_distribution" "HealthCare_CF_Distribution" {
     viewer_certificate {
         cloudfront_default_certificate = true
     }
-}
-
-resource "aws_cloudfront_origin_access_identity" "" {
-    
 }
