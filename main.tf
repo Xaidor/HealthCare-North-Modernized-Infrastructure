@@ -32,5 +32,11 @@ module "CF-static-website" {
 
   s3_bucket_arn  = module.prod-s3-website.bucket_arn
   cf_domain_name = module.prod-s3-website.bucket_regional_domain_name
+}
 
+# CodePipeline 
+module "CI-CD-github-pipeline" {
+  source = "./modules/prod-codepipeline"
+
+  artifact_location = module.prod-s3-website.bucket
 }
