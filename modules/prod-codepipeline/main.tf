@@ -1,8 +1,8 @@
 # CodePipeline Draft as a source repo
 resource "aws_codepipeline" "HCN_codepipeline"{
     name = "HealthCare-prod-blackco-pipeline"
-    role_arn = aws_iam_role.<grab role>.arn
-
+    role_arn = "arn:aws:iam::060795916438:role/CodePipelineServiceRole"
+"
     artifact_store { 
         type = "S3"
         location = aws_s3_bucket.<prod-bucket>.bucket
@@ -11,16 +11,16 @@ resource "aws_codepipeline" "HCN_codepipeline"{
         name = "Source"
 
         action {
-            name = "Source"
-            category = "Source"
-            owner = "ThirdParty"
-            provider = "GitHub"
-            version = "1"
+            name             = "Source"
+            category         = "Source"
+            owner            = "ThirdParty"
+            provider         = "GitHub"
+            version          = "1"
             output_artifacts = ["SourceOutput"]
 
             configuration = {
-                Owner = "Xaidor"
-                Repo = "HealthCare-North-Modernized-Infrastructure"
+                Owner  = "Xaidor"
+                Repo   = "HealthCare-North-Modernized-Infrastructure"
                 Branch = "main"
                 OAuthToken = var.github_token
 
