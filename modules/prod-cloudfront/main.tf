@@ -1,18 +1,18 @@
 resource "aws_cloudfront_distribution" "HealthCare_CF_Distribution" {
     origin {
         domain_name = var.cf_domain_name
-        origin_id = local.cf_origin_id   
+        origin_id   = local.cf_origin_id   
     }
-    enabled = true  
-    comment = "HealthCare North CloudFront Disribution"
+    enabled             = true  
+    comment             = "HealthCare North CloudFront Disribution"
     default_root_object = "index.html"
 
     default_cache_behavior {
-        target_origin_id = local.cf_origin_id 
+        target_origin_id       = local.cf_origin_id 
         viewer_protocol_policy = "redirect-to-https" 
 
         allowed_methods = ["GET", "HEAD"]
-        cached_methods = ["GET", "HEAD"] #common for static content
+        cached_methods  = ["GET", "HEAD"] #common for static content
 
         forwarded_values {
             query_string = false 

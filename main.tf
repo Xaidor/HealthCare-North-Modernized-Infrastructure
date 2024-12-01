@@ -30,7 +30,7 @@ module "prod-s3-website" {
 module "CF-static-website" {
   source = "./modules/prod-cloudfront"
 
-  s3_bucket_arn            = module.prod-s3-website.bucket_arn
-  cf_domain_name           = module.prod-s3-website.bucket_regional_domain_name
+  s3_bucket_arn  = module.prod-s3-website.bucket_arn
+  cf_domain_name = module.prod-s3-website.bucket_regional_domain_name
 
 }
