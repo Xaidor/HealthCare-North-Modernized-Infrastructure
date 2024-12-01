@@ -35,7 +35,7 @@ resource "aws_codepipeline" "HCN_codepipeline"{
             configuration = {
                 Owner  = "Xaidor"
                 Repo   = "HealthCare-North-Modernized-Infrastructure"
-                Branch = "main"
+                Branch = "dev"
                 OAuthToken = var.github_token
 
             }
@@ -43,7 +43,7 @@ resource "aws_codepipeline" "HCN_codepipeline"{
     }
 }
 resource "aws_iam_policy_attachment" "codepipeline_policy_attach" {
-    name = "CodePipelinePermissions"
-    roles = ["arn:aws:iam::060795916438:role/CodePipelineServiceRole"]
-    policy_arn = "arn:aws:iam:aws:policy/<...>"
+    name         = "CodePipelinePermissions"
+    roles        = ["arn:aws:iam::060795916438:role/CodePipelineServiceRole"]
+    policy_arn   = "arn:aws:iam:aws:policy/<...>"
 }
