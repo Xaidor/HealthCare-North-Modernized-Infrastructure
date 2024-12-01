@@ -2,7 +2,7 @@
 resource "aws_codepipeline" "HCN_codepipeline"{
     name = "HealthCare-prod-blackco-pipeline"
     role_arn = "arn:aws:iam::060795916438:role/CodePipelineServiceRole"
-"
+
     artifact_store { 
         type = "S3"
         location = aws_s3_bucket.<prod-bucket>.bucket
