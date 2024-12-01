@@ -19,3 +19,18 @@ module "dev-s3-website" {
   source   = "./modules/dev-s3"
   s3bucket = var.s3bucket
 }
+
+# S3 bucket for Production
+module "prod-s3-website" {
+  source   = "./modules/prod-s3"
+  s3bucket = var.s3bucket
+}
+
+# CloudFront distribution
+module "CF-static-website" {
+  source = "./modules/prod-cloudfront"
+
+  s3_bucket_arn            = module.prod-s3-website.bucket_arn
+  cf_domain_name           = module.prod-s3-website.bucket_regional_domain_name
+
+}

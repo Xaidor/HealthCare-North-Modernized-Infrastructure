@@ -1,40 +1,35 @@
-# Rough draft module of CloudFront Distribution
-
 resource "aws_cloudfront_distribution" "HealthCare_CF_Distribution" {
     origin {
-        domain_name = aws_s3_bucket.HCN_Prod_Bucket.bucket_reginal_domain_name 
-        origin_acces_control = aws_cloudfront_origin_acces_control.default.id
-        origin_id = local.s3_origin_id
+        domain_name = var.cf_domain_name
+        origin_id = local.cf_origin_id   
     }
-    enabled = true  #enables or disables distribution
-    is_ipv4_enabled = true
+    enabled = true  
     comment = "HealthCare North CloudFront Disribution"
     default_root_object = "index.html"
 
     default_cache_behavior {
-        target_origin_id = local.s3_origin_id 
+        target_origin_id = local.cf_origin_id 
         viewer_protocol_policy = "redirect-to-https" 
 
-        allow_methods = ["GET", "HEAD"]
+        allowed_methods = ["GET", "HEAD"]
         cached_methods = ["GET", "HEAD"] #common for static content
 
-        forward_values {
+        forwarded_values {
             query_string = false 
 
             cookies {
                 forward = "none" 
             }
         }
-        min_ttl = 0 #Minimum time an object stays in the CloudFront cache
-        default_ttl = 3600 #Default cache duration for objects when no specific cache-control header is provided.
-        max_ttl = 86400 #Maximum cache duration
+        min_ttl = 0 
+        
     }
-    price_classs = "priceClass_100" #pricing tiers: PriceClass_100 = lest expensive, PriceClass_200( North American + Europe) = moderate (includes Asia + Oceania), PriceClass_All = Most expensive (all global locations)
+    price_class = "PriceClass_100" #pricing tiers: PriceClass_100 = lest expensive, PriceClass_200( North American + Europe) = moderate (includes Asia + Oceania), PriceClass_All = Most expensive (all global locations)
 
     restrictions {
         geo_restriction {
-            restriction_type = whitelist #allows specified countries. Optionss are whitelist, blocklist, and none for no restrictions
-                locations = var.north_america_restrictions
+            restriction_type = "whitelist"    #allows specified countries. Optionss are whitelist, blocklist, and none for no restrictions
+                locations = ["US", "CA", "MX"]
         }
     }
     viewer_certificate {
