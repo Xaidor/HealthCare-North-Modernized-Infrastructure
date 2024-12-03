@@ -1,4 +1,4 @@
-/*resource "aws_s3_bucket" "HealthCare_North" {
+resource "aws_s3_bucket" "HealthCare_North" {
   bucket = "healthcare-north-pod4-project"
   tags = {
     Name        = "Bucket for Development Environment"
@@ -13,5 +13,33 @@ resource "aws_s3_bucket_versioning" "versioning" {
     status = "Enabled"
   }
 }
-*/
 
+# S3 bucket for development  
+module "dev-s3-website" {
+  source   = "./modules/dev-s3"
+  s3bucket = var.s3bucket
+}
+
+# S3 bucket for Production
+module "prod-s3-website" {
+  source   = "./modules/prod-s3"
+  s3bucket = var.s3bucket
+}
+
+# CloudFront distribution
+module "CF-static-website" {
+  source = "./modules/prod-cloudfront"
+
+  s3_bucket_arn  = module.prod-s3-website.bucket_arn
+  cf_domain_name = module.prod-s3-website.bucket_regional_domain_name
+}
+
+# CodePipeline 
+module "CI-CD-github-pipeline" {
+  source = "./modules/prod-codepipeline"
+
+  artifact_location = module.prod-s3-website.s3_bucket_bucket
+  github_owner            = var.github_owner
+  github_repo             = var.github_repo
+  codestar_connection_arn = var.codestar_connection_arn
+}
