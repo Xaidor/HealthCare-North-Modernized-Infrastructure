@@ -1,11 +1,13 @@
  /* CodePipeline 
- THIS RESOURCE HAS NOT BEEN FULLY TESTED! CODE DEPLOY NEEDED
+Terraform plan = successful
+Terraform validate = successful
+Terraform apply = 
  */
 
 resource "aws_codestarconnections_connection" "HCN_github" {
-  name          = "HealthCareNorth-GitHub-connection"
+  name          = "HealthCareNorth"
   provider_type = "GitHub"
-
+  
   tags = {
     Project = "HealthCareNorth"
     Environtment = "Prod"

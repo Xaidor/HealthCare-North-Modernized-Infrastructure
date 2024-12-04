@@ -68,11 +68,11 @@ resource "aws_s3_bucket_policy" "hcn_public_policy" {
           AWS = var.pipeline_arn
         }
         Action    = [
-          "s3:GtObject",
+          "s3:GetObject",
           "s3:PutObject",
           "s3:ListBucket"
         ]
-        Reesource  = [
+        Resource  = [
           aws_s3_bucket.HCN_Prod_Bucket.arn,
           "${aws_s3_bucket.HCN_Prod_Bucket.arn}/*"
         ]

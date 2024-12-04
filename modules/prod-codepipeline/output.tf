@@ -7,5 +7,6 @@ output "codepipeline_name" {
 }
 
 output "pipeline_role_arn" {
-    value = aws_iam_role.HCN_codepipeline.arn
+  value       = var.HCN_arn_role
+  description = "IAM Role ARN used by CodePipeline"
 }
