@@ -1,7 +1,7 @@
  /* CodePipeline 
 Terraform plan = successful
 Terraform validate = successful
-Terraform apply = 
+Terraform apply = succesful
  */
 
 resource "aws_codestarconnections_connection" "HCN_github" {
