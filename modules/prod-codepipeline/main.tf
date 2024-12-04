@@ -14,7 +14,7 @@ resource "aws_codestarconnections_connection" "HCN_github" {
   }
 }
 resource "aws_codepipeline" "HCN_codepipeline" {
-    name = "HealthCare-prod-blackco-pipeline"
+    name     = "HealthCare-prod-pipeline"
     role_arn = var.HCN_arn_role
 
     artifact_store { 
@@ -43,7 +43,7 @@ resource "aws_codepipeline" "HCN_codepipeline" {
         name = "Build"
 
         action{
-            name = "HealthCare-North-Build"
+            name = "HealthCare-Build"
             category = "Build"
             owner = "AWS"
             provider = "Codebuild"
