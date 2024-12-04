@@ -3,21 +3,22 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 18  
+      python: 3.8  # Adjust based on your project requirements
     commands:
-      - echo Installing Node.js dependencies
+      - echo Installing Python dependencies
+      - pip install --upgrade pip
+      - pip install -r requirements.txt
 
   build:
     commands:
-      - echo Running build
-      - npm run build  
-      - mkdir -p build_output
-      - cp -r dist/* build_output/  
+      - echo Running Python build
+      - python build_script.py  # Replace with your Python build script
 
   post_build:
     commands:
       - echo Post-build phase
-      - aws s3 cp build_output/ s3://healthcare-north-pod4-project/ --recursive
+      - mkdir -p build_output
+      - cp -r output_files/* build_output/  # Adjust to match your Python build outputs
 
 artifacts:
   files:
@@ -26,6 +27,4 @@ artifacts:
 
 cache:
   paths:
-    - 'node_modules/**/*'  
-
-
+    - '.cache/pip/**/*'  # Cache Python dependencies
