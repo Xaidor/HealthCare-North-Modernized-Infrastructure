@@ -37,7 +37,7 @@ resource "aws_codepipeline" "HCN_codepipeline" {
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.HCN_github.arn
         FullRepositoryId =  "${var.github_owner}/${var.github_repo}" # e.g., "my-org/my-repo"
-        BranchName       = "dev"
+        BranchName       = "main"
       }
     }
   }
@@ -61,7 +61,7 @@ resource "aws_codepipeline" "HCN_codepipeline" {
   }
 
   stage {
-    name = "Deploy_to_dev_bucket"
+    name = "Deploy_to_prod_bucket"
 
     action {
       name            = "Deploy_to_bucket"
@@ -72,7 +72,7 @@ resource "aws_codepipeline" "HCN_codepipeline" {
       version         = "1"
 
       configuration = {
-        BucketName = "healthcare-dev-s3-blackco-bucket"
+        BucketName = "healthcare-prod-s3-blackco-bucket"
         Extract    = "true"
       }
     }
@@ -99,3 +99,15 @@ resource "aws_codebuild_project" "HealthCareBuild" {
     buildspec       =  file("./modules/prod-codepipeline/buildspec.yml")
   }
 }
+
+/* Not completed APPROVALS
+
+resource "aws_codedeploy_deployment_config" "Prod_Approvals" {
+  deployment_config_name = "test-deployment-config"
+
+  minimum_healthy_hosts {
+    type  = "HOST_COUNT"
+    value = 2
+  }
+}
+*/

@@ -3,11 +3,11 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: 3.8  # Default Python version; adjust as needed
+      python: 3.8  
     commands:
       - echo Installing default dependencies
       - pip install --upgrade pip
-      - pip install boto3  # Example of a default dependency, remove if unnecessary
+      - pip install boto3  
 
   build:
     commands:
