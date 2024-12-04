@@ -13,7 +13,7 @@ phases:
     commands:
       - echo Running default Python build
       - mkdir -p build_output
-      - echo "Hello, CodeBuild from Prod environment!" > build_output/output.txt
+      - echo "Dev CodeBuld WORKS!" > build_output/output.txt
 
 artifacts:
   files:
