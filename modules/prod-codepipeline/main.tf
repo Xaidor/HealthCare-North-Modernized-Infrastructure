@@ -36,7 +36,7 @@ resource "aws_codepipeline" "HCN_codepipeline" {
 
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.HCN_github.arn
-        FullRepositoryId = "${var.github_owner}/${var.github_repo}" # e.g., "my-org/my-repo"
+        FullRepositoryId =  "${var.github_owner}/${var.github_repo}" # e.g., "my-org/my-repo"
         BranchName       = "dev"
       }
     }
@@ -55,7 +55,7 @@ resource "aws_codepipeline" "HCN_codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "HealthCare North Infrastructure"
+        ProjectName = aws_codebuild_project.HealthCareBuild.name
       }
     }
   }
@@ -76,5 +76,25 @@ resource "aws_codepipeline" "HCN_codepipeline" {
         Extract    = "true"
       }
     }
+  }
+}
+
+resource "aws_codebuild_project" "HealthCareBuild" {
+  name          = "HealthCare-prod-build"
+  description   = "Build for HealthCare-prod-pipeline"
+  service_role  = var.build_service_role_arn
+  artifacts {
+    type     = "S3"
+    location = var.artifact_location
+  }
+  environment {
+    compute_type = "BUILD_GENERAL1_SMALL"
+    image        = "aws/codebuild/standard:5.0"
+    type         = "LINUX_CONTAINER"
+  }
+  source {
+    type            = "CODECOMMIT"
+    location        = "https://github.com/${var.github_owner}/${var.github_repo}"
+    buildspec       = "buildspec.yml"  
   }
 }

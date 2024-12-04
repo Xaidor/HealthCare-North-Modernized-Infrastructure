@@ -30,6 +30,6 @@ variable "github_repo" {
 }
 
 variable "HCN_arn_role" {
-  type        = string
-  default     = "arn:aws:iam::060795916438:role/CodePipelineServiceRole"
+  type    = string
+  default = "arn:aws:iam::060795916438:role/CodePipelineServiceRole"
 }

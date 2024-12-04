@@ -1,0 +1,42 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      
+      nodejs: 16  
+    commands:
+      - echo Installing dependencies
+      - npm install  
+
+  pre_build:
+    commands:
+      - echo Pre-build phase
+      
+      - echo Setting up environment
+
+  build:
+    commands:
+      - echo Building the project
+      - npm run build 
+      
+      - mkdir -p build_output
+      - cp -r dist/* build_output/
+
+  post_build:
+    commands:
+      - echo Post-build phase
+      - echo Deploying artifacts to S3 buckets
+
+      - aws s3 cp build_output/ s3://healthcare-north-pod4-project/ --recursive  # Development S3 bucket
+      - aws s3 cp build_output/ s3://healthcare-north-prod-bucket/ --recursive  # Production S3 bucket
+
+artifacts:
+  files:
+    - '**/*'  
+    - 'build_output/**/*' 
+
+cache:
+  paths:
+    - '/root/.npm/**/*' 
+
