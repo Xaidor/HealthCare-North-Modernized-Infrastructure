@@ -3,3 +3,8 @@ variable "s3bucket" {
   type        = string
   default     = "healthcare-north-pod4-project-prod-1"
 }
+
+variable "pipeline_arn" {
+  type        = string
+  description = "filler for codepipeline arn"
+}

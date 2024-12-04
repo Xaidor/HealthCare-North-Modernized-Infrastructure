@@ -60,6 +60,22 @@ resource "aws_s3_bucket_policy" "hcn_public_policy" {
         Principal = "*"
         Action    = "s3:GetObject"
         Resource  = "${aws_s3_bucket.HCN_Prod_Bucket.arn}/*"
+      },
+      {
+        Sid       = "CodePipelineAccess"
+        Effect    = "Allow"
+        Principal = {
+          AWS = var.pipeline_arn
+        }
+        Action    = [
+          "s3:GtObject",
+          "s3:PutObject",
+          "s3:ListBucket"
+        ]
+        Reesource  = [
+          aws_s3_bucket.HCN_Prod_Bucket.arn,
+          "${aws_s3_bucket.HCN_Prod_Bucket.arn}/*"
+        ]
       }
     ]
   })

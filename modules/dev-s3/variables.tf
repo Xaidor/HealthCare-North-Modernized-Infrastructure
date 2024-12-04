@@ -3,4 +3,7 @@ variable "s3bucket" {
   description = "Unique bucket name"
 }
 
-
+variable "pipeline_arn" {
+  type        = string
+  description = "filler for codepipeline arn"
+}
