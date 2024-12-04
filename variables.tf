@@ -13,19 +13,19 @@ locals {
 }
 
 variable "github_owner" {
-    type        = string
-    default     = "Xaidor" 
-    description = "The GitHub user that owns the repository."
+  type        = string
+  default     = "Xaidor"
+  description = "The GitHub user that owns the repository."
 }
 
 variable "github_repo" {
-    type        = string
-    default     = "HealthCare-North-Modernized-Infrastructure" 
-    description = "The GitHub repository to integrate."
+  type        = string
+  default     = "HealthCare-North-Modernized-Infrastructure"
+  description = "The GitHub repository to integrate."
 }
 
 variable "codestar_connection_arn" {
-    type        = string
-    default     = "arn:aws:codestar-connections:region:account-id:connection/connection-id"
-    description = "The ARN of the CodeStar connection."
+  type        = string
+  default     = "arn:aws:codestar-connections:region:account-id:connection/connection-id"
+  description = "The ARN of the CodeStar connection."
 }

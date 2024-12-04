@@ -11,7 +11,7 @@ resource "aws_codestarconnections_connection" "HCN_github" {
     Environtment = "Prod"
   }
 }
-resource "aws_codepipeline" "HCN_codepipeline"{
+resource "aws_codepipeline" "HCN_codepipeline" {
     name = "HealthCare-prod-blackco-pipeline"
     role_arn = var.HCN_arn_role
 
@@ -55,6 +55,21 @@ resource "aws_codepipeline" "HCN_codepipeline"{
         }
     }
     # Add deploy stage here
+    stage {
+    name = "Deploy_to_dev_bucket"
+    action {
+      name            = "Deploy_to_bucket"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "S3"
+      input_artifacts = ["build_output"]
+      version         = "1"
 
+      configuration = {
+        BucketName = "healthcare-dev-s3-blackco-bucket"
+        Extract    = "true"
+      }
+    }
+  }
 }
 
