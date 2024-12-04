@@ -45,5 +45,4 @@ module "CI-CD-github-pipeline" {
   artifact_location       = module.prod-s3-website.s3_bucket_bucket
   github_owner            = var.github_owner
   github_repo             = var.github_repo
-  codestar_connection_arn = var.codestar_connection_arn
 }

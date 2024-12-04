@@ -29,8 +29,7 @@ variable "github_repo" {
   description = "The GitHub repository to integrate."
 }
 
-variable "codestar_connection_arn" {
+variable "HCN_arn_role" {
   type        = string
-  default     = "arn:aws:codestar-connections:region:account-id:connection/connection-id"
-  description = "The ARN of the CodeStar connection."
+  default     = "arn:aws:iam::060795916438:role/CodePipelineServiceRole"
 }

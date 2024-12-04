@@ -7,58 +7,62 @@ Terraform apply =
 resource "aws_codestarconnections_connection" "HCN_github" {
   name          = "HealthCareNorth"
   provider_type = "GitHub"
-  
+
   tags = {
-    Project = "HealthCareNorth"
-    Environtment = "Prod"
+    Project     = "HealthCareNorth"
+    Environment = "Prod"
   }
 }
+
 resource "aws_codepipeline" "HCN_codepipeline" {
-    name     = "HealthCare-prod-pipeline"
-    role_arn = var.HCN_arn_role
+  name     = "HealthCare-prod-pipeline"
+  role_arn = var.HCN_arn_role
 
-    artifact_store { 
-        type = "S3"
-        location = var.artifact_location
+  artifact_store { 
+    type     = "S3"
+    location = var.artifact_location
+  }
+
+  stage {
+    name = "Source"
+
+    action {
+      name             = "GitHubSource"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
+      output_artifacts = ["source_output"]
+
+      configuration = {
+        ConnectionArn    = aws_codestarconnections_connection.HCN_github.arn
+        FullRepositoryId = "${var.github_owner}/${var.github_repo}" # e.g., "my-org/my-repo"
+        BranchName       = "dev"
+      }
     }
-    stage {
-        name = "Source"
+  }
 
-        action {
-            name             = "GitHubSource"
-            category         = "Source"
-            owner            = "AWS"
-            provider         = "CodeStarSourceConnection"
-            version          = "1"
-            output_artifacts = ["source_output"]
+  stage {
+    name = "Build"
 
-            configuration = {
-                ConnectionArn = var.codestar_connection_arn
-                FullRepositoryId  = "${var.github_owner}/${var.github_repo}"
-                BranchName = "dev"
-            }
-        }
+    action {
+      name             = "HealthCare-Build"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["build_output"]
+      version          = "1"
+
+      configuration = {
+        ProjectName = "HealthCare North Infrastructure"
+      }
     }
-    stage {
-        name = "Build"
+  }
 
-        action{
-            name = "HealthCare-Build"
-            category = "Build"
-            owner = "AWS"
-            provider = "Codebuild"
-            input_artifacts = ["source_output"]
-            output_artifacts = ["build_output"]
-            version = "1"
-
-            configuration = {
-                ProjectName = "HealthCare North Infrastructure"
-            }
-        }
-    }
-    # Add deploy stage here
-    stage {
+  stage {
     name = "Deploy_to_dev_bucket"
+
     action {
       name            = "Deploy_to_bucket"
       category        = "Deploy"
@@ -74,4 +78,3 @@ resource "aws_codepipeline" "HCN_codepipeline" {
     }
   }
 }
-
