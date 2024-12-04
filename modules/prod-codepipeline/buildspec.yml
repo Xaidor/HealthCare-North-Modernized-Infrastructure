@@ -3,28 +3,19 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: 3.8  # Adjust based on your project requirements
+      python: 3.8  # Default Python version; adjust as needed
     commands:
-      - echo Installing Python dependencies
+      - echo Installing default dependencies
       - pip install --upgrade pip
-      - pip install -r requirements.txt
+      - pip install boto3  # Example of a default dependency, remove if unnecessary
 
   build:
     commands:
-      - echo Running Python build
-      - python build_script.py  # Replace with your Python build script
-
-  post_build:
-    commands:
-      - echo Post-build phase
+      - echo Running default Python build
       - mkdir -p build_output
-      - cp -r output_files/* build_output/  # Adjust to match your Python build outputs
+      - echo "Hello, CodeBuild!" > build_output/output.txt
 
 artifacts:
   files:
     - '**/*'
     - 'build_output/**/*'
-
-cache:
-  paths:
-    - '.cache/pip/**/*'  # Cache Python dependencies

@@ -87,11 +87,11 @@ resource "aws_codebuild_project" "HealthCareBuild" {
     type     = "S3"
     location = var.artifact_location
   }
- environment {
-  compute_type = "BUILD_GENERAL1_SMALL"
-  image        = "aws/codebuild/amazonlinux2-x86_64-standard:3.0" # Python-compatible image
-  type         = "LINUX_CONTAINER"
-}
+  environment {
+    compute_type = "BUILD_GENERAL1_SMALL"
+    image        = "aws/codebuild/amazonlinux2-x86_64-standard:3.0" 
+    type         = "LINUX_CONTAINER"
+  }
 
   source {
     type            = "CODECOMMIT"
