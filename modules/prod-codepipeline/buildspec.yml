@@ -6,7 +6,6 @@ phases:
       nodejs: 18  
     commands:
       - echo Installing Node.js dependencies
-      - npm install
 
   build:
     commands:
