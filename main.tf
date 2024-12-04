@@ -23,7 +23,7 @@ module "dev-s3-website" {
 # S3 bucket for Production
 module "prod-s3-website" {
   source   = "./modules/prod-s3"
-  s3bucket = var.s3bucket
+  s3bucket = var.s3bucketprod
 }
 
 # CloudFront distribution
@@ -42,5 +42,5 @@ module "CI-CD-github-pipeline" {
   github_owner            = var.github_owner
   github_repo             = var.github_repo
   codestar_connection_arn = var.codestar_connection_arn
-  
+
 }

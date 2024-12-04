@@ -3,6 +3,11 @@ variable "s3bucket" {
   description = "Unique bucket name"
 }
 
+variable "s3bucketprod" {
+  default     = "healthcare-north-pod4-project-prod-1"
+  description = "Unique bucket name"
+}
+
 variable "north_america_restrictions" {
   default     = ["US", "MX", "CA"]
   description = "restrictions for North America. Mexico, United States, and Canada"
