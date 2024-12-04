@@ -37,6 +37,24 @@ resource "aws_codepipeline" "HCN_codepipeline"{
             }
         }
     }
-    # Build stages should be added here
+    stage {
+        name = "Build"
+
+        action{
+            name = "HealthCare-North-Build"
+            category = "Build"
+            owner = "AWS"
+            provider = "Codebuild"
+            input_artifacts = ["source_output"]
+            output_artifacts = ["build_output"]
+            version = "1"
+
+            configuration = {
+                ProjectName = "HealthCare North Infrastructure"
+            }
+        }
+    }
+    # Add deploy stage here
+
 }
 
