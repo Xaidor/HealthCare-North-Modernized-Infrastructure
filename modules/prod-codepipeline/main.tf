@@ -1,5 +1,5 @@
- /* CodePipeline Draft as a source repo 
- THIS RESOURCE HAS NOT BEEN FULLY TESTED! CODE BUILD NEEDED
+ /* CodePipeline 
+ THIS RESOURCE HAS NOT BEEN FULLY TESTED! CODE DEPLOY NEEDED
  */
 
 resource "aws_codestarconnections_connection" "HCN_github" {
