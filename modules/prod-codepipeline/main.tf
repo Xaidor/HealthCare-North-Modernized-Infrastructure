@@ -95,6 +95,6 @@ resource "aws_codebuild_project" "HealthCareBuild" {
   source {
     type            = "CODECOMMIT"
     location        = "https://github.com/${var.github_owner}/${var.github_repo}"
-    buildspec       = "buildspec.yml"  
+    buildspec       =  "./modules/prod-codepipeline/buildspec.yml"
   }
 }
