@@ -59,7 +59,16 @@ resource "aws_codepipeline" "HCN_codepipeline" {
       }
     }
   }
-
+  stage {
+    name = "Approve"
+    action {
+      name            = "Approval"
+      category        = "Approval"
+      owner           = "AWS"
+      provider        = "Manual"
+      version         = "1"
+    }
+  }
   stage {
     name = "Deploy_to_prod_bucket"
 
@@ -72,7 +81,7 @@ resource "aws_codepipeline" "HCN_codepipeline" {
       version         = "1"
 
       configuration = {
-        BucketName = "healthcare-prod-s3-blackco-bucket"
+        BucketName = "healthcare-north-pod4-project-prod-1"
         Extract    = "true"
       }
     }
@@ -99,15 +108,3 @@ resource "aws_codebuild_project" "HealthCareBuild" {
     buildspec       =  file("./modules/prod-codepipeline/buildspec.yml")
   }
 }
-
-/* Not completed APPROVALS
-
-resource "aws_codedeploy_deployment_config" "Prod_Approvals" {
-  deployment_config_name = "test-deployment-config"
-
-  minimum_healthy_hosts {
-    type  = "HOST_COUNT"
-    value = 2
-  }
-}
-*/
