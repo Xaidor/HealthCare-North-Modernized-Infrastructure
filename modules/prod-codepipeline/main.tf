@@ -108,3 +108,30 @@ resource "aws_codebuild_project" "HealthCareBuild" {
     buildspec       =  file("./modules/prod-codepipeline/buildspec.yml")
   }
 }
+
+resource "aws_codecommit_approval_rule_template" "prod_approvals" {
+  name        = "HealthCareApprovals"
+  description = "This is an example approval rule template"
+
+  content = jsonencode({
+    Version               = "2018-11-08"
+    DestinationReferences = ["main"]
+    Statements = [{
+      Type                    = "Approvers"
+      NumberOfApprovalsNeeded = 1
+      ApprovalPoolMembers     = ["arn:aws:iam::060795916438:user/gparwekar", "arn:aws:iam::060795916438:user/kanderson"]
+    }]
+  })
+}
+
+resource "aws_codestarnotifications_notification_rule" "approval_notifications" {
+  detail_type    = "BASIC"
+  event_type_ids = [ "codepipeline-pipeline-manual-approval-needed"]
+
+  name     = "ApprovalNotifications"
+  resource = aws_codepipeline.HCN_codepipeline.arn
+
+  target {
+    address = "arn:aws:sns:us-east-1:060795916438:Approval_for_Production:b09cb02e-3728-41e4-937c-c523cac8cdc3"
+  }
+}
