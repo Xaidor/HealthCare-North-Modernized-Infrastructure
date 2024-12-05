@@ -24,7 +24,7 @@ module "dev-s3-website" {
 
 # CloudFront distribution for development environment 
 module "Dev-CF-Static-Web" {
-  source = "./modules/prod-cloudfront"
+  source = "./modules/dev-cloudfront"
 
   s3_bucket_arn  = module.dev-s3-website.bucket_arn
   cf_domain_name = module.dev-s3-website.bucket_regional_domain_name

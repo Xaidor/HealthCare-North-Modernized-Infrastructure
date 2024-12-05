@@ -3,7 +3,7 @@ resource "aws_codestarconnections_connection" "Dev_github" {
   provider_type = "GitHub"
 
   tags = {
-    Project     = "Dev-HCN"
+    Project     = "HealthCareNorth"
     Environment = "Dev"
   }
 }
