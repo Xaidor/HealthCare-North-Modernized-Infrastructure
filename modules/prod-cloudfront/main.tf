@@ -4,7 +4,7 @@ resource "aws_cloudfront_distribution" "HealthCare_CF_Distribution" {
         origin_id   = local.cf_origin_id   
     }
     enabled             = true  
-    comment             = "HealthCare North CloudFront Disribution"
+    comment             = "HealthCare North CloudFront Distribution"
     default_root_object = "index.html"
 
     default_cache_behavior {
@@ -12,7 +12,7 @@ resource "aws_cloudfront_distribution" "HealthCare_CF_Distribution" {
         viewer_protocol_policy = "redirect-to-https" 
 
         allowed_methods = ["GET", "HEAD"]
-        cached_methods  = ["GET", "HEAD"] #common for static content
+        cached_methods  = ["GET", "HEAD"] 
 
         forwarded_values {
             query_string = false 
@@ -22,16 +22,17 @@ resource "aws_cloudfront_distribution" "HealthCare_CF_Distribution" {
             }
         }
         min_ttl = 0 
-        
     }
-    price_class = "PriceClass_100" #pricing tiers: PriceClass_100 = lest expensive, PriceClass_200( North American + Europe) = moderate (includes Asia + Oceania), PriceClass_All = Most expensive (all global locations)
+
+    price_class = "PriceClass_100" 
 
     restrictions {
         geo_restriction {
-            restriction_type = "whitelist"    #allows specified countries. Optionss are whitelist, blocklist, and none for no restrictions
-                locations = ["US", "CA", "MX"]
+            restriction_type = "whitelist"    
+            locations        = ["US", "CA", "MX"]  
         }
     }
+
     viewer_certificate {
         cloudfront_default_certificate = true
     }

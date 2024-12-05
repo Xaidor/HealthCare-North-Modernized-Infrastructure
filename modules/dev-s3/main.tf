@@ -8,7 +8,7 @@ resource "aws_s3_bucket" "HCN_Dev_Bucket" {
     }
 */
     tags = {
-        Name = "HealthCare North Static Website"
+        Name         = "HealthCare North Static Website"
         Environment  = "Dev"
     }
 }
@@ -43,7 +43,7 @@ resource "aws_s3_object" "index_object" {
 
 resource  "aws_s3_object" "error_opject" {
     bucket = aws_s3_bucket.HCN_Dev_Bucket.id
-    key = "error.html"
+    key    = "error.html"
     source = "./modules/dev-s3/error.html"
 }
 
@@ -59,6 +59,22 @@ resource "aws_s3_bucket_policy" "hcn_public_policy" {
         Principal = "*"
         Action    = "s3:GetObject"
         Resource  = "${aws_s3_bucket.HCN_Dev_Bucket.arn}/*"
+      },
+      {
+        Sid       = "CodePipelineAccess"
+        Effect    = "Allow"
+        Principal = {
+          AWS = var.pipeline_arn
+        }
+        Action    = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:ListBucket"
+        ]
+        Resource  = [
+          aws_s3_bucket.HCN_Dev_Bucket.arn,
+          "${aws_s3_bucket.HCN_Dev_Bucket.arn}/*"
+        ]
       }
     ]
   })

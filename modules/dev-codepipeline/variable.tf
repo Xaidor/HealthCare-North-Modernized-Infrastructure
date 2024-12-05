@@ -5,7 +5,7 @@ variable "codestar_connection_arn" {
 
 variable "artifact_location" {
   type = string
-  description = "Grabbing the prod-s3 bucket. Left empty to add later in the pareent module from the prod s3 child module"
+  description = "Grabbing the dev-s3 bucket. Left empty to add later in the pareent module from the prod s3 child module"
 }
 
 variable "HCN_arn_role" {

@@ -7,7 +7,8 @@ variable "s3_bucket_arn" {
   type        = string
 }
 
-
-locals {
-  cf_origin_id = "HCN-prod-blackco-CloudFront"
+variable "dev_origin_id" {
+  type        = string
+  default     = "HCN-dev-blackco2024-CloudFront"
 }
+

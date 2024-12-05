@@ -1,21 +1,15 @@
- /* CodePipeline 
-Terraform plan = successful
-Terraform validate = successful
-Terraform apply = succesful
- */
-
-resource "aws_codestarconnections_connection" "HCN_github" {
-  name          = "HealthCareNorth"
+resource "aws_codestarconnections_connection" "Dev_github" {
+  name          = "Dev-HealthCare"
   provider_type = "GitHub"
 
   tags = {
     Project     = "HealthCareNorth"
-    Environment = "Prod"
+    Environment = "Dev"
   }
 }
 
-resource "aws_codepipeline" "HCN_codepipeline" {
-  name     = "HealthCare-prod-pipeline"
+resource "aws_codepipeline" "HCN_dev_pipeline" {
+  name     = "HealthCare-dev-pipeline"
   role_arn = var.HCN_arn_role
 
   artifact_store { 
@@ -35,9 +29,9 @@ resource "aws_codepipeline" "HCN_codepipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        ConnectionArn    = aws_codestarconnections_connection.HCN_github.arn
+        ConnectionArn    = aws_codestarconnections_connection.Dev_github.arn
         FullRepositoryId =  "${var.github_owner}/${var.github_repo}" 
-        BranchName       = "main"
+        BranchName       = "dev"
       }
     }
   }
@@ -46,7 +40,7 @@ resource "aws_codepipeline" "HCN_codepipeline" {
     name = "Build"
 
     action {
-      name             = "HealthCare-Build"
+      name             = "Dev-Build"
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
@@ -55,13 +49,13 @@ resource "aws_codepipeline" "HCN_codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = aws_codebuild_project.HealthCareBuild.name
+        ProjectName = aws_codebuild_project.DevBuild.name
       }
     }
   }
 
   stage {
-    name = "Deploy_to_prod_bucket"
+    name = "Deploy_to_dev_bucket"
 
     action {
       name            = "Deploy_to_bucket"
@@ -72,16 +66,16 @@ resource "aws_codepipeline" "HCN_codepipeline" {
       version         = "1"
 
       configuration = {
-        BucketName = "healthcare-prod-s3-blackco-bucket"
+        BucketName = "healthcare-dev-s3-blackco-bucket"
         Extract    = "true"
       }
     }
   }
 }
 
-resource "aws_codebuild_project" "HealthCareBuild" {
-  name          = "HealthCare-prod-build"
-  description   = "Build for HealthCare-prod-pipeline"
+resource "aws_codebuild_project" "DevBuild" {
+  name          = "HealthCare-Dev-Build"
+  description   = "Build for development pipeline"
   service_role  = var.build_service_role_arn
   artifacts {
     type     = "S3"
@@ -96,18 +90,6 @@ resource "aws_codebuild_project" "HealthCareBuild" {
   source {
     type            = "CODECOMMIT"
     location        = "https://github.com/${var.github_owner}/${var.github_repo}"
-    buildspec       =  file("./modules/prod-codepipeline/buildspec.yml")
+    buildspec       =  file("./modules/dev-codepipeline/buildspec.yml")
   }
 }
-
-/* Not completed APPROVALS
-
-resource "aws_codedeploy_deployment_config" "Prod_Approvals" {
-  deployment_config_name = "test-deployment-config"
-
-  minimum_healthy_hosts {
-    type  = "HOST_COUNT"
-    value = 2
-  }
-}
-*/
