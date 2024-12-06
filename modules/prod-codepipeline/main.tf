@@ -72,7 +72,7 @@ resource "aws_codepipeline" "HCN_codepipeline" {
       version         = "1"
 
       configuration = {
-        BucketName = "healthcare-prod-s3-blackco-bucket"
+        BucketName = "healthcare-north-pod4-project-prod-1"
         Extract    = "true"
       }
     }
